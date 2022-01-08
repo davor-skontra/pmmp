@@ -1,5 +1,4 @@
-export const ColorPropertyNames = ['Hue', 'Saturation', 'Brightness'] as const;
-export type ColorProperty = typeof ColorPropertyNames;
+export enum ColorProperty {Hue= 'Hue', Saturation = 'Saturation', Brightness = 'Brightness'}
 
 export function calculateColors() {
     

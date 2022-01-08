@@ -1,12 +1,12 @@
 import {Box, FormControl, MenuItem, TextField, Typography} from '@mui/material';
 import {CSSProperties, useState} from 'react';
-import {ColorProperty, ColorPropertyNames} from "./palette-engine";
+import {ColorProperty} from "./palette-engine";
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 interface ColorValueSelectorProps {
     title: string;
     defaultSelected: ColorProperty
-    selectableOptions: string[]
+    selectableOptions: ColorProperty[]
     onOptionChange: (selection: ColorProperty) => void;
     onValueChange: (value: number) => void;
 }
@@ -26,14 +26,18 @@ function ColorValueSelector(p: ColorValueSelectorProps) {
                 <Typography variant={'body1'} style={{width: '45pt'}}>{p.title}</Typography>
                 <Select
                     style={{width: '98pt'}}
-                    value={p.defaultSelected.toString()}
-                    onChange={e => p.onOptionChange(e.target.value as unknown as ColorProperty)}
+                    defaultValue={p.defaultSelected.toString()}
+                    onChange={e => p.onOptionChange(ColorProperty[e.target.value as keyof typeof ColorProperty])}
                 >
-                    {ColorPropertyNames.map((x, i) => (
-                        <MenuItem key={i} value={x}>{x}</MenuItem>)
+                    {p.selectableOptions.map((x, i) => (
+                        <MenuItem key={i} value={x.toString()}>{x.toString()}</MenuItem>)
                     )}
                 </Select>
-                <TextField type={'number'} inputProps={{ inputMode: 'numeric'}} label={'Count'}/>
+                <TextField 
+                    type={'number'}
+                    inputProps={{ inputMode: 'numeric'}}
+                    label={'Count'}
+                    onChange={e => p.onValueChange(Number(e.target.value))}/>
             </FormControl>
         </Box>
     )
