@@ -26,7 +26,7 @@ function ColorValueSelector(p: ColorValueSelectorProps) {
                 <Typography variant={'body1'} style={{width: '45pt'}}>{p.title}</Typography>
                 <Select
                     style={{width: '98pt'}}
-                    defaultValue={p.defaultSelected.toString()}
+                    value={p.defaultSelected.toString()}
                     onChange={e => p.onOptionChange(ColorProperty[e.target.value as keyof typeof ColorProperty])}
                 >
                     {p.selectableOptions.map((x, i) => (

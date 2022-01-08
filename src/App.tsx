@@ -1,22 +1,23 @@
 import React, {CSSProperties, useEffect, useState} from 'react';
-import logo from './logo.svg';
 import './App.css';
 import {Box, Card, Typography} from "@mui/material";
 import ColorValueSelector from "./ColorValueSelector";
 import {ColorProperty} from "./palette-engine";
+import _ from 'lodash'
 
 function App() {
     const [baseSelection, setBaseSelection] = useState(ColorProperty.Hue)
     const [variantSelection, setVariantSelection] = useState(ColorProperty.Brightness)
-    const [constantSelection, setConstantSelection] = useState(ColorProperty.Saturation)
-
+    
+    const properties = Object.values<ColorProperty>(ColorProperty)
+    const constantSelection = _.without(properties, baseSelection, variantSelection)
+    
     useEffect(() => {
         document.title = "pmmp - Make Palettes"
     });
 
-    const exclude = (property: ColorProperty) =>
-        Object.values<ColorProperty>(ColorProperty).filter(x => x != property)
-
+    const exclude = (property: ColorProperty) => properties.filter(x => x != property)
+    
     return (
         <Box>
             <Card>
@@ -25,14 +26,15 @@ function App() {
                     title={'Base:'}
                     defaultSelected={baseSelection}
                     selectableOptions={exclude(variantSelection)}
-                    onOptionChange={x => {}}
+                    onOptionChange={setBaseSelection}
                     onValueChange={x => {}}/>
                 <ColorValueSelector
                     title={'Variant:'}
                     defaultSelected={variantSelection}
                     selectableOptions={exclude(baseSelection)}
-                    onOptionChange={x => {}}
+                    onOptionChange={setVariantSelection}
                     onValueChange={x => {}}/>
+                <Typography variant={'body1'}>{constantSelection}</Typography>
             </Card>
         </Box>
     );
