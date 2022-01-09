@@ -1,14 +1,18 @@
 import {Box, FormControl, MenuItem, TextField, Typography} from '@mui/material';
-import {CSSProperties, useState} from 'react';
+import {CSSProperties, ReactNode, useState} from 'react';
 import {ColorProperty} from "./palette-engine";
 import Select, {SelectChangeEvent} from '@mui/material/Select';
 
-interface ColorValueSelectorProps {
+export interface ColorPropertySelectorProps {
     title: string;
     defaultSelected: ColorProperty
     selectableOptions: ColorProperty[]
     onOptionChange: (selection: ColorProperty) => void;
-    onValueChange: (value: number) => void;
+    onValueChange: (value: number) => void
+}
+
+export type ExtendedColorPropertySelectorProps = ColorPropertySelectorProps & {
+    rightElement: (onValueChange: (value: number) => void) => JSX.Element
 }
 
 const formControlStyle: CSSProperties = {
@@ -18,7 +22,7 @@ const formControlStyle: CSSProperties = {
     gap: '10pt',
 }
 
-function ColorValueSelector(p: ColorValueSelectorProps) {
+function ColorPropertySelector(p: ExtendedColorPropertySelectorProps) {
     return (
         <FormControl style={formControlStyle}>
             <Typography variant={'body1'} style={{width: '45pt'}}>{p.title}</Typography>
@@ -31,13 +35,9 @@ function ColorValueSelector(p: ColorValueSelectorProps) {
                     <MenuItem key={i} value={x.toString()}>{x.toString()}</MenuItem>)
                 )}
             </Select>
-            <TextField
-                type={'number'}
-                inputProps={{inputMode: 'numeric'}}
-                label={'Count'}
-                onChange={e => p.onValueChange(Number(e.target.value))}/>
+            {p.rightElement(p.onValueChange)}
         </FormControl>
     )
 }
 
-export default ColorValueSelector;
+export default ColorPropertySelector;

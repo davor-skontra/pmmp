@@ -1,7 +1,7 @@
 import React, {CSSProperties, useEffect, useState} from 'react';
 import './App.css';
 import {Box, Card, Typography} from "@mui/material";
-import ColorValueSelector from "./ColorValueSelector";
+import ColorPropertySelectorWithTextField from "./ColorPropertySelectorWithTextField";
 import {ColorProperty} from "./palette-engine";
 import _ from 'lodash'
 import ColorValueSlider from "./ColorValueSlider";
@@ -23,24 +23,22 @@ function App() {
     useEffect(() => {
         document.title = "pmmp - Make Palettes"
     });
-
-    const exclude = (property: ColorProperty) => properties.filter(x => x != property)
-
+    
     return (
         <Box>
             <Card style={cardStyle}>
                 <Typography variant={"h6"}>Palette Maker Makes Palettes</Typography>
-                <ColorValueSelector
+                <ColorPropertySelectorWithTextField
                     title={'Base:'}
                     defaultSelected={baseSelection}
-                    selectableOptions={exclude(variantSelection)}
+                    selectableOptions={properties}
                     onOptionChange={setBaseSelection}
                     onValueChange={x => {
                     }}/>
-                <ColorValueSelector
+                <ColorPropertySelectorWithTextField
                     title={'Variant:'}
                     defaultSelected={variantSelection}
-                    selectableOptions={exclude(baseSelection)}
+                    selectableOptions={properties}
                     onOptionChange={setVariantSelection}
                     onValueChange={x => {
                     }}/>
