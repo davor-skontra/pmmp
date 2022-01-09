@@ -1,24 +1,19 @@
-import {TextField} from '@mui/material';
+import {Slider, SliderProps, TextField} from '@mui/material';
 import ColorPropertySelector, {ColorPropertySelectorProps} from "./ColorPropertySelector";
 
-type SliderColorPropertySelectorProps = ColorPropertySelectorProps & {
-    from: number
-    to: number
-}
+type SliderColorPropertySelectorProps = ColorPropertySelectorProps & SliderProps
 
-function renderSlider(onValueChange: (value: number) => void) {
+function renderSlider(p: SliderColorPropertySelectorProps, onValueChange: (value: number) => void) {
     return (
-        <TextField
-            type={'number'}
-            inputProps={{inputMode: 'numeric'}}
-            label={'Count'}
-            onChange={e => onValueChange(Number(e.target.value))}/>
+        <Slider {...p}/>
     )
 }
 
 function ColorPropertySelectorWithSlider(p: SliderColorPropertySelectorProps) {
+    const sliderFactory = (v: (value: number) => void) => renderSlider(p, v)
+    
     return (
-        <ColorPropertySelector {...p} rightElement={renderSlider}/>
+        <ColorPropertySelector {...p} rightElement={sliderFactory}/>
     )
 }
 

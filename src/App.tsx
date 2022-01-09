@@ -18,7 +18,7 @@ function App() {
     const [baseSelection, setBaseSelection] = useState(ColorProperty.Hue)
     const [variantSelection, setVariantSelection] = useState(ColorProperty.Brightness)
     const [constantSelection, setConstantSelection] = useState(ColorProperty.Brightness)
-
+    
     useEffect(() => {
         document.title = "pmmp - Make Palettes"
     });
@@ -44,8 +44,9 @@ function App() {
                     defaultSelected={baseSelection} 
                     onOptionChange={setConstantSelection}
                     onValueChange={x => {}}
-                    from={1} 
-                    to={100}
+                    min={1} 
+                    max={100}
+                    step={1}
                 />
             </Card>
         </Box>
