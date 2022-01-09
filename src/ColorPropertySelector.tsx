@@ -6,7 +6,6 @@ import Select, {SelectChangeEvent} from '@mui/material/Select';
 export interface ColorPropertySelectorProps {
     title: string;
     defaultSelected: ColorProperty
-    selectableOptions: ColorProperty[]
     onOptionChange: (selection: ColorProperty) => void;
     onValueChange: (value: number) => void
 }
@@ -22,16 +21,18 @@ const formControlStyle: CSSProperties = {
     gap: '10pt',
 }
 
+const colorProperties = Object.values<ColorProperty>(ColorProperty)
+
 function ColorPropertySelector(p: ExtendedColorPropertySelectorProps) {
     return (
         <FormControl style={formControlStyle}>
-            <Typography variant={'body1'} style={{width: '45pt'}}>{p.title}</Typography>
+            <Typography variant={'body1'} style={{width: '55pt'}}>{p.title}</Typography>
             <Select
                 style={{width: '98pt'}}
                 value={p.defaultSelected.toString()}
                 onChange={e => p.onOptionChange(ColorProperty[e.target.value as keyof typeof ColorProperty])}
             >
-                {p.selectableOptions.map((x, i) => (
+                {colorProperties.map((x, i) => (
                     <MenuItem key={i} value={x.toString()}>{x.toString()}</MenuItem>)
                 )}
             </Select>

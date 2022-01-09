@@ -17,8 +17,7 @@ const cardStyle: CSSProperties = {
 function App() {
     const [baseSelection, setBaseSelection] = useState(ColorProperty.Hue)
     const [variantSelection, setVariantSelection] = useState(ColorProperty.Brightness)
-    const properties = Object.values<ColorProperty>(ColorProperty)
-    const constantSelection = _.without(properties, baseSelection, variantSelection)
+    const [constantSelection, setConstantSelection] = useState(ColorProperty.Brightness)
 
     useEffect(() => {
         document.title = "pmmp - Make Palettes"
@@ -31,22 +30,22 @@ function App() {
                 <ColorPropertySelectorWithTextField
                     title={'Base:'}
                     defaultSelected={baseSelection}
-                    selectableOptions={properties}
                     onOptionChange={setBaseSelection}
-                    onValueChange={x => {
-                    }}/>
+                    onValueChange={x => {}}
+                />
                 <ColorPropertySelectorWithTextField
                     title={'Variant:'}
                     defaultSelected={variantSelection}
-                    selectableOptions={properties}
                     onOptionChange={setVariantSelection}
-                    onValueChange={x => {
-                    }}/>
-                <ColorValueSlider 
-                    title={`Base (${constantSelection}):`}
-                    from={1}
-                    to={100} 
                     onValueChange={x => {}}
+                />
+                <ColorValueSlider
+                    title={`Constant:`}
+                    defaultSelected={baseSelection} 
+                    onOptionChange={setConstantSelection}
+                    onValueChange={x => {}}
+                    from={1} 
+                    to={100}
                 />
             </Card>
         </Box>

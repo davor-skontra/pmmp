@@ -1,25 +1,25 @@
-import {FormControl, Typography} from "@mui/material";
-import {CSSProperties} from "react";
+import {TextField} from '@mui/material';
+import ColorPropertySelector, {ColorPropertySelectorProps} from "./ColorPropertySelector";
 
-interface ColorValueSliderProps {
-    title: string
+type SliderColorPropertySelectorProps = ColorPropertySelectorProps & {
     from: number
     to: number
-    onValueChange: (value: number) => void
 }
 
-const formControlStyle: CSSProperties = {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: '10pt',
-}
-function ColorValueSlider(p: ColorValueSliderProps){
+function renderSlider(onValueChange: (value: number) => void) {
     return (
-        <FormControl style={formControlStyle}>
-            <Typography variant={'body1'} style={{width: '200pt'}}>{p.title}</Typography>
-        </FormControl>
+        <TextField
+            type={'number'}
+            inputProps={{inputMode: 'numeric'}}
+            label={'Count'}
+            onChange={e => onValueChange(Number(e.target.value))}/>
     )
 }
 
-export default ColorValueSlider;
+function ColorPropertySelectorWithSlider(p: SliderColorPropertySelectorProps) {
+    return (
+        <ColorPropertySelector {...p} rightElement={renderSlider}/>
+    )
+}
+
+export default ColorPropertySelectorWithSlider;
