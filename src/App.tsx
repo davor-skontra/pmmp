@@ -36,12 +36,14 @@ function App() {
     
     const colors = calculateColors(settings)
     
-    console.log(colors.length)
-    
     useEffect(() => {
         document.title = "pmmp - Make Palettes"
     });
     
+    const colorFieldStyle: CSSProperties = {
+        width: `${(100.0 / baseValue)}%`,
+        height: '30pt'
+    }
     return (
         <Box>
             <Card style={cardStyle}>
@@ -75,7 +77,9 @@ function App() {
             </Card>
             <Collapse in={!_.isEmpty(colors)}>
                 <Card style={cardStyle}>
-
+                    <Box style={{display: 'flex', flexDirection: 'row', width: "100%", flexWrap: 'wrap'}}>
+                        {colors.map(c => <div style={{...colorFieldStyle, backgroundColor: c}}/>)}
+                    </Box>
                 </Card>
             </Collapse>
         </Box>

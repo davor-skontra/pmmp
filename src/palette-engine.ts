@@ -48,8 +48,11 @@ function createColor(baseCurrent: number, variantCurrent: number, s: ColorCalcul
     
 }
 
-export function calculateColors(s: ColorCalculationSettings): Color[] {
+export function calculateColors(s: ColorCalculationSettings): string[] {
     const baseSteps = getSteps(s.baseMin, s.baseMax, s.baseValue)
     const variantSteps = getSteps(s.variantMin, s.variantMax, s.variantValue)
-    return baseSteps.flatMap(b => variantSteps.map(v => createColor(b, v, s)))
+    const colors = baseSteps
+        .flatMap(b => variantSteps.map(v => createColor(b, v, s)))
+        .map(c => c.hex())
+    return _.uniq(colors)
 }
