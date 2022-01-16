@@ -4,7 +4,7 @@ import {Box, Card, Typography} from "@mui/material";
 import ColorPropertySelectorWithTextField from "./ColorPropertySelectorWithTextField";
 import {ColorProperty} from "./palette-engine";
 import _ from 'lodash'
-import ColorValueSlider from "./ColorValueSlider";
+import ColorValueSlider from "./ColorPropertySelectorWithSlider";
 
 const cardStyle: CSSProperties = {
     margin: '10pt',
@@ -17,7 +17,7 @@ const cardStyle: CSSProperties = {
 function App() {
     const [baseSelection, setBaseSelection] = useState(ColorProperty.Hue)
     const [variantSelection, setVariantSelection] = useState(ColorProperty.Brightness)
-    const [constantSelection, setConstantSelection] = useState(ColorProperty.Brightness)
+    const [constantSelection, setConstantSelection] = useState(ColorProperty.Saturation)
     
     useEffect(() => {
         document.title = "pmmp - Make Palettes"
@@ -41,7 +41,7 @@ function App() {
                 />
                 <ColorValueSlider
                     title={`Constant:`}
-                    defaultSelected={baseSelection} 
+                    defaultSelected={constantSelection} 
                     onOptionChange={setConstantSelection}
                     onValueChange={x => {}}
                     min={1} 

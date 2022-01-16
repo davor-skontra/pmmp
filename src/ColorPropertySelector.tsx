@@ -18,7 +18,7 @@ const formControlStyle: CSSProperties = {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    gap: '10pt',
+    gap: '15pt',
 }
 
 const colorProperties = Object.values<ColorProperty>(ColorProperty)

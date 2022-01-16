@@ -4,6 +4,7 @@ import ColorPropertySelector, {ColorPropertySelectorProps} from "./ColorProperty
 function renderTextField(onValueChange: (value: number) => void) {
     return (
         <TextField
+            style={{width: '100%', maxWidth: '300pt'}}
             type={'number'}
             inputProps={{inputMode: 'numeric'}}
             label={'Count'}
