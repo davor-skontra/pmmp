@@ -2,7 +2,7 @@ import React, {CSSProperties, useEffect, useState} from 'react';
 import './App.css';
 import {Box, Card, Typography} from "@mui/material";
 import ColorPropertySelectorWithTextField from "./ColorPropertySelectorWithTextField";
-import {ColorProperty} from "./palette-engine";
+import {calculateColors, ColorCalculationSettings, ColorProperty} from "./palette-engine";
 import _ from 'lodash'
 import ColorValueSlider from "./ColorPropertySelectorWithSlider";
 
@@ -18,6 +18,20 @@ function App() {
     const [baseSelection, setBaseSelection] = useState(ColorProperty.Hue)
     const [variantSelection, setVariantSelection] = useState(ColorProperty.Brightness)
     const [constantSelection, setConstantSelection] = useState(ColorProperty.Saturation)
+    const [baseValue, setBaseValue] = useState(3)
+    const [variantValue, setVariantValue] = useState(3)
+    const [constantValue, setConstantValue] = useState(128) // Middle value (between 0 and 255) for constant
+    
+    const settings: ColorCalculationSettings = {
+        baseColorProperty: baseSelection,
+        baseValue: baseValue,
+        variantColorProperty: variantSelection,
+        variantValue: variantValue,
+        constantColorProperty: constantSelection,
+        constantValue: constantValue,
+    }
+    
+    calculateColors(settings)
     
     useEffect(() => {
         document.title = "pmmp - Make Palettes"
@@ -30,22 +44,25 @@ function App() {
                 <ColorPropertySelectorWithTextField
                     title={'Base:'}
                     defaultSelected={baseSelection}
+                    defaultValue={baseValue}
                     onOptionChange={setBaseSelection}
-                    onValueChange={x => {}}
+                    onValueChange={setBaseValue}
                 />
                 <ColorPropertySelectorWithTextField
                     title={'Variant:'}
                     defaultSelected={variantSelection}
+                    defaultValue={variantValue}
                     onOptionChange={setVariantSelection}
-                    onValueChange={x => {}}
+                    onValueChange={setVariantValue}
                 />
                 <ColorValueSlider
                     title={`Constant:`}
-                    defaultSelected={constantSelection} 
+                    defaultSelected={constantSelection}
+                    defaultValue={constantValue}
                     onOptionChange={setConstantSelection}
-                    onValueChange={x => {}}
-                    min={1} 
-                    max={100}
+                    onValueChange={setConstantValue}
+                    min={0} 
+                    max={255}
                     step={1}
                 />
             </Card>

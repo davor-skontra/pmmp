@@ -6,19 +6,20 @@ import Select, {SelectChangeEvent} from '@mui/material/Select';
 export interface ColorPropertySelectorProps {
     title: string;
     defaultSelected: ColorProperty
+    defaultValue: number
     onOptionChange: (selection: ColorProperty) => void;
     onValueChange: (value: number) => void
 }
 
 export type ExtendedColorPropertySelectorProps = ColorPropertySelectorProps & {
-    rightElement: (onValueChange: (value: number) => void) => JSX.Element
+    rightElement: (defaultValue: number, onValueChange: (value: number) => void) => JSX.Element
 }
 
 const formControlStyle: CSSProperties = {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    gap: '15pt',
+    gap: '10pt',
 }
 
 const colorProperties = Object.values<ColorProperty>(ColorProperty)
@@ -36,7 +37,7 @@ function ColorPropertySelector(p: ExtendedColorPropertySelectorProps) {
                     <MenuItem key={i} value={x.toString()}>{x.toString()}</MenuItem>)
                 )}
             </Select>
-            {p.rightElement(p.onValueChange)}
+            {p.rightElement(p.defaultValue, p.onValueChange)}
         </FormControl>
     )
 }
