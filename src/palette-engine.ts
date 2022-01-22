@@ -54,5 +54,5 @@ export function calculateColors(s: ColorCalculationSettings): string[] {
     const colors = baseSteps
         .flatMap(b => variantSteps.map(v => createColor(b, v, s)))
         .map(c => c.hex())
-    return _.uniq(colors)
+    return colors
 }

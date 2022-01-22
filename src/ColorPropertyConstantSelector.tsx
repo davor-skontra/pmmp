@@ -1,5 +1,5 @@
 import {Slider, SliderProps, TextField} from '@mui/material';
-import ColorPropertySelector, {ColorPropertySelectorProps} from "./ColorPropertySelector";
+import ColorPropertySelectorBase, {ColorPropertySelectorProps} from "./ColorPropertySelectorBase";
 
 type SliderColorPropertySelectorProps = ColorPropertySelectorProps & SliderProps
 
@@ -14,12 +14,12 @@ function renderSlider(p: SliderColorPropertySelectorProps, defaultValue: number,
     )
 }
 
-function ColorPropertySelectorWithSlider(p: SliderColorPropertySelectorProps) {
+function ColorPropertyConstantSelector(p: SliderColorPropertySelectorProps) {
     const sliderFactory = (defaultValue: number, onChange: (value: number) => void) => renderSlider(p, defaultValue, onChange)
     
     return (
-        <ColorPropertySelector {...p} rightElement={sliderFactory}/>
+        <ColorPropertySelectorBase {...p} rightElement={sliderFactory}/>
     )
 }
 
-export default ColorPropertySelectorWithSlider;
+export default ColorPropertyConstantSelector;

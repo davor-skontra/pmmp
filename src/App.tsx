@@ -1,10 +1,10 @@
 import React, {CSSProperties, useEffect, useState} from 'react';
 import './App.css';
 import {Box, Card, Collapse, Typography} from "@mui/material";
-import ColorPropertySelectorWithTextField from "./ColorPropertySelectorWithTextField";
+import ColorPropertySelector from "./ColorPropertySelector";
 import {calculateColors, ColorCalculationSettings, ColorProperty} from "./palette-engine";
 import _ from 'lodash'
-import ColorValueSlider from "./ColorPropertySelectorWithSlider";
+import ColorPropertyConstantSelector from "./ColorPropertyConstantSelector";
 
 const cardStyle: CSSProperties = {
     margin: '10pt',
@@ -54,27 +54,28 @@ function App() {
         width: `${(100.0 / baseValue)}%`,
         height: '30pt'
     }
+    
     return (
         <Box>
             <Card style={cardStyle}>
                 <Typography variant={"h6"}>Palette Maker Makes Palettes</Typography>
             </Card>
             <Card style={{...cardStyle, flexDirection: 'column'}}>
-                <ColorPropertySelectorWithTextField
+                <ColorPropertySelector
                     title={'Base:'}
                     defaultSelected={baseSelection}
                     defaultValue={baseValue}
                     onOptionChange={setBaseSelection}
                     onValueChange={setBaseValue}
                 />
-                <ColorPropertySelectorWithTextField
+                <ColorPropertySelector
                     title={'Variant:'}
                     defaultSelected={variantSelection}
                     defaultValue={variantValue}
                     onOptionChange={setVariantSelection}
                     onValueChange={setVariantValue}
                 />
-                <ColorValueSlider
+                <ColorPropertyConstantSelector
                     title={`Constant:`}
                     defaultSelected={constantSelection}
                     defaultValue={constantValue}
@@ -87,7 +88,7 @@ function App() {
             </Card>
             <Collapse in={selectionsAreValid}>
                 <Card style={cardStyle}>
-                    <Box style={{display: 'flex', flexDirection: 'row', width: "100%", flexWrap: 'wrap'}}>
+                    <Box style={{display: 'flex', flexDirection: 'row', width: "1000%", flexWrap: 'wrap'}}>
                         {colors.map(c => <div style={{...colorFieldStyle, backgroundColor: c}}/>)}
                     </Box>
                 </Card>
