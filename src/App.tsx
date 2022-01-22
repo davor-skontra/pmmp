@@ -34,7 +34,13 @@ function App() {
         variantMin: 0,
     }
     
-    const colors = calculateColors(settings)
+    let colorsAreValid = _.uniq([baseSelection, variantSelection, constantSelection]).length === 3
+    let colors: string[] = []
+    
+    if (colorsAreValid) {
+        colors = calculateColors(settings)
+        colorsAreValid = !_.isEmpty(colors)
+    }
     
     useEffect(() => {
         document.title = "pmmp - Make Palettes"
@@ -75,7 +81,7 @@ function App() {
                     step={1}
                 />
             </Card>
-            <Collapse in={!_.isEmpty(colors)}>
+            <Collapse in={colorsAreValid}>
                 <Card style={cardStyle}>
                     <Box style={{display: 'flex', flexDirection: 'row', width: "100%", flexWrap: 'wrap'}}>
                         {colors.map(c => <div style={{...colorFieldStyle, backgroundColor: c}}/>)}
