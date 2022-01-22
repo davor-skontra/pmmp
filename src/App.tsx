@@ -21,6 +21,8 @@ function App() {
     const [variantValue, setVariantValue] = useState(3)
     const [constantValue, setConstantValue] = useState(50) // Middle value (between 0 and 100) for constant
     
+    const maxFor = (property: ColorProperty) => property === ColorProperty.Hue ? 359 : 100
+    
     const settings: ColorCalculationSettings = {
         baseColorProperty: baseSelection,
         baseValue: baseValue,
@@ -28,18 +30,20 @@ function App() {
         variantValue: variantValue,
         constantColorProperty: constantSelection,
         constantValue: constantValue,
-        baseMax: 100,
+        baseMax: maxFor(baseSelection),
         baseMin: 0,
-        variantMax: 100,
+        variantMax: maxFor(variantSelection),
         variantMin: 0,
     }
     
-    let colorsAreValid = _.uniq([baseSelection, variantSelection, constantSelection]).length === 3
+    const amountOfColorProperties = 3
+    const allSelections = [baseSelection, variantSelection, constantSelection]
+    let selectionsAreValid = _.uniq(allSelections).length === amountOfColorProperties
     let colors: string[] = []
     
-    if (colorsAreValid) {
+    if (selectionsAreValid) {
         colors = calculateColors(settings)
-        colorsAreValid = !_.isEmpty(colors)
+        selectionsAreValid = !_.isEmpty(colors)
     }
     
     useEffect(() => {
@@ -77,11 +81,11 @@ function App() {
                     onOptionChange={setConstantSelection}
                     onValueChange={setConstantValue}
                     min={0} 
-                    max={100}
+                    max={maxFor(constantSelection)}
                     step={1}
                 />
             </Card>
-            <Collapse in={colorsAreValid}>
+            <Collapse in={selectionsAreValid}>
                 <Card style={cardStyle}>
                     <Box style={{display: 'flex', flexDirection: 'row', width: "100%", flexWrap: 'wrap'}}>
                         {colors.map(c => <div style={{...colorFieldStyle, backgroundColor: c}}/>)}
