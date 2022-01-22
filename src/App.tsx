@@ -15,20 +15,17 @@ const cardStyle: CSSProperties = {
 }
 
 function App() {
-    
-    const maxFor = (property: ColorProperty) => {
-        const result = property == ColorProperty.Hue ? 359 : 100;
-        console.log(`Result for property ${property} was ${result}`)
-        return result;
-    }
+    const maxFor = (property: ColorProperty) => property == ColorProperty.Hue ? 359 : 100;
 
     const [baseSelection, setBaseSelection] = useState(ColorProperty.Hue)
-    const [baseValue, setBaseValue] = useState(3)
+    const [baseValue, setBaseValue] = useState(6)
     const [baseRange, setBaseRange] = useState(new ColorPropertyRange(0, maxFor(baseSelection)))
+    const baseDefaultRange = new ColorPropertyRange(0, 300)
     
     const [variantSelection, setVariantSelection] = useState(ColorProperty.Brightness)
-    const [variantValue, setVariantValue] = useState(3)
+    const [variantValue, setVariantValue] = useState(12)
     const [variantRange, setVariantRange] = useState(new ColorPropertyRange(0, maxFor(variantSelection)))
+    const variantDefaultRange = new ColorPropertyRange(20, 80)
 
     const [constantSelection, setConstantSelection] = useState(ColorProperty.Saturation)
     const [constantValue, setConstantValue] = useState(50) // Middle value (between 0 and 100) for constant
@@ -78,7 +75,7 @@ function App() {
                     defaultValue={baseValue}
                     onOptionChange={setBaseSelection}
                     onValueChange={setBaseValue}
-                    defaultSelectedRange={new ColorPropertyRange(0, maxFor(baseSelection))} 
+                    defaultSelectedRange={baseDefaultRange} 
                     onRangeChange={r => setBaseRange(r)}
                     range={new ColorPropertyRange(0, maxFor(baseSelection))}
                 />
@@ -88,7 +85,7 @@ function App() {
                     defaultValue={variantValue}
                     onOptionChange={setVariantSelection}
                     onValueChange={setVariantValue}
-                    defaultSelectedRange={new ColorPropertyRange(0, maxFor(variantSelection))}
+                    defaultSelectedRange={variantDefaultRange}
                     onRangeChange={r => setVariantRange(r)}
                     range={new ColorPropertyRange(0, maxFor(variantSelection))}/>
                 <ColorPropertyConstantSelector
