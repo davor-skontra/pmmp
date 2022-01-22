@@ -1,6 +1,6 @@
 import React, {CSSProperties, useEffect, useState} from 'react';
 import './App.css';
-import {Box, Card, Collapse, Typography} from "@mui/material";
+import {Box, Card, Collapse, Paper, Typography} from "@mui/material";
 import ColorPropertySelector from "./ColorPropertySelector";
 import {calculateColors, ColorCalculationSettings, ColorColumn, ColorProperty} from "./palette-engine";
 import _ from 'lodash'
@@ -16,7 +16,11 @@ const cardStyle: CSSProperties = {
 
 function App() {
     
-    const maxFor = (property: ColorProperty) => property === ColorProperty.Hue ? 359 : 100
+    const maxFor = (property: ColorProperty) => {
+        const result = property == ColorProperty.Hue ? 359 : 100;
+        console.log(`Result for property ${property} was ${result}`)
+        return result;
+    }
 
     const [baseSelection, setBaseSelection] = useState(ColorProperty.Hue)
     const [baseValue, setBaseValue] = useState(3)
@@ -74,9 +78,9 @@ function App() {
                     defaultValue={baseValue}
                     onOptionChange={setBaseSelection}
                     onValueChange={setBaseValue}
-                    possibleMax={maxFor(baseSelection)}
                     defaultSelectedRange={new ColorPropertyRange(0, maxFor(baseSelection))} 
                     onRangeChange={r => setBaseRange(r)}
+                    range={new ColorPropertyRange(0, maxFor(baseSelection))}
                 />
                 <ColorPropertySelector
                     title={'Variant:'}
@@ -84,10 +88,9 @@ function App() {
                     defaultValue={variantValue}
                     onOptionChange={setVariantSelection}
                     onValueChange={setVariantValue}
-                    possibleMax={maxFor(variantSelection)}
                     defaultSelectedRange={new ColorPropertyRange(0, maxFor(variantSelection))}
                     onRangeChange={r => setVariantRange(r)}
-                />
+                    range={new ColorPropertyRange(0, maxFor(variantSelection))}/>
                 <ColorPropertyConstantSelector
                     title={`Constant:`}
                     defaultSelected={constantSelection}
@@ -98,6 +101,10 @@ function App() {
                     max={maxFor(constantSelection)}
                     step={1}
                 />
+                <Paper elevation={1} style={{...cardStyle, margin: 0, flexDirection: 'column'}}>
+                    <Typography>{`Base: ${baseValue} | Variant: ${variantValue} | Constant: ${constantValue}`}</Typography>
+                    <Typography>{`B Min: ${settings.baseMin} | B Max: ${settings.baseMax} | V Min: ${settings.variantMin} | V Max: ${settings.variantMax}`}</Typography>
+                </Paper>
             </Card>
             <Collapse in={selectionsAreValid}>
                 <Card style={cardStyle}>

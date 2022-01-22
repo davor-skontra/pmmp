@@ -15,7 +15,9 @@ function renderTextField(defaultValue: number, onValueChange: (value: number) =>
             />
             <Slider
                 style={{width: '80%', maxWidth: '300pt'}}
-                defaultValue={[0, rp.possibleMax]}
+                min={rp.range.min}
+                max={rp.range.max}
+                defaultValue={[rp.defaultSelectedRange.min, rp.defaultSelectedRange.max]}
                 onChange={ (e, v) => {
                     const [min, max] = v as number[];
                     rp.onRangeChange(new ColorPropertyRange(min, max));
@@ -25,8 +27,8 @@ function renderTextField(defaultValue: number, onValueChange: (value: number) =>
     )
 }
 
-interface RangeProperties { 
-    possibleMax: number;
+interface RangeProperties {
+    range: ColorPropertyRange;
     defaultSelectedRange: ColorPropertyRange;
     onRangeChange: (rp: ColorPropertyRange) => void;
 }
