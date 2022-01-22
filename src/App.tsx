@@ -1,11 +1,12 @@
 import React, {CSSProperties, useEffect, useState} from 'react';
 import './App.css';
-import {Box, Card, Collapse, Paper, Typography} from "@mui/material";
+import {Box, Card, Collapse, Paper, Switch, Typography} from "@mui/material";
 import ColorPropertySelector from "./ColorPropertySelector";
 import {calculateColors, ColorCalculationSettings, ColorColumn, ColorProperty} from "./palette-engine";
 import _ from 'lodash'
 import ColorPropertyConstantSelector from "./ColorPropertyConstantSelector";
 import ColorPropertyRange from "./color-property-range";
+import LabeledCheckbox from "./LabeledCheckbox";
 
 const cardStyle: CSSProperties = {
     margin: '10pt',
@@ -29,6 +30,8 @@ function App() {
 
     const [constantSelection, setConstantSelection] = useState(ColorProperty.Saturation)
     const [constantValue, setConstantValue] = useState(50) // Middle value (between 0 and 100) for constant
+    
+    const [showDebugValues, setShowDebugValues] = useState(false)
     
     
     const settings: ColorCalculationSettings = {
@@ -65,8 +68,11 @@ function App() {
     
     return (
         <Box>
-            <Card style={cardStyle}>
+            <Card style={{...cardStyle, flexDirection: 'column'}}>
                 <Typography variant={"h6"}>Palette Maker Makes Palettes</Typography>
+                <Box style={{display: 'flex', flexDirection: 'row', gap: '10pt'}}>
+                    <LabeledCheckbox defaultChecked={showDebugValues} label={'Show Debug Values'} onChange={(e, v) => setShowDebugValues(v)}/>
+                </Box>
             </Card>
             <Card style={{...cardStyle, flexDirection: 'column'}}>
                 <ColorPropertySelector
@@ -98,10 +104,12 @@ function App() {
                     max={maxFor(constantSelection)}
                     step={1}
                 />
-                <Paper elevation={1} style={{...cardStyle, margin: 0, flexDirection: 'column'}}>
-                    <Typography>{`Base: ${baseValue} | Variant: ${variantValue} | Constant: ${constantValue}`}</Typography>
-                    <Typography>{`B Min: ${settings.baseMin} | B Max: ${settings.baseMax} | V Min: ${settings.variantMin} | V Max: ${settings.variantMax}`}</Typography>
-                </Paper>
+                <Collapse in={showDebugValues}>
+                    <Card variant={'outlined'} style={{...cardStyle, margin: 0, flexDirection: 'column'}}>
+                        <Typography>{`Base: ${baseValue} | Variant: ${variantValue} | Constant: ${constantValue}`}</Typography>
+                        <Typography>{`B Min: ${settings.baseMin} | B Max: ${settings.baseMax} | V Min: ${settings.variantMin} | V Max: ${settings.variantMax}`}</Typography>
+                    </Card>
+                </Collapse>
             </Card>
             <Collapse in={selectionsAreValid}>
                 <Card style={cardStyle}>
