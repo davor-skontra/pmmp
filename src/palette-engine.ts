@@ -31,7 +31,7 @@ function getSteps(min: number, max: number, amount: number): number[] {
     return result
 }
 
-function createColor(baseCurrent: number, variantCurrent: number, s: ColorCalculationSettings){
+function createColor(baseCurrent: number, variantCurrent: number, s: ColorCalculationSettings) {
     const values: {cp: ColorProperty, v: number}[] = [
             {cp: s.baseColorProperty, v: baseCurrent},
             {cp: s.variantColorProperty, v: variantCurrent},
@@ -45,14 +45,15 @@ function createColor(baseCurrent: number, variantCurrent: number, s: ColorCalcul
     return Color.hsl(
         use(ColorProperty.Hue), use(ColorProperty.Saturation), use(ColorProperty.Brightness)
     )
-    
 }
 
-export function calculateColors(s: ColorCalculationSettings): string[] {
+export interface ColorColumn {
+    key: number; 
+    colors: Color[];
+} 
+
+export function calculateColors(s: ColorCalculationSettings): ColorColumn[] {
     const baseSteps = getSteps(s.baseMin, s.baseMax, s.baseValue)
     const variantSteps = getSteps(s.variantMin, s.variantMax, s.variantValue)
-    const colors = baseSteps
-        .flatMap(b => variantSteps.map(v => createColor(b, v, s)))
-        .map(c => c.hex())
-    return colors
+    return baseSteps.map(b => ({key: b, colors: variantSteps.map(v => createColor(b, v, s))}))
 }

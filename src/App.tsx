@@ -2,7 +2,7 @@ import React, {CSSProperties, useEffect, useState} from 'react';
 import './App.css';
 import {Box, Card, Collapse, Typography} from "@mui/material";
 import ColorPropertySelector from "./ColorPropertySelector";
-import {calculateColors, ColorCalculationSettings, ColorProperty} from "./palette-engine";
+import {calculateColors, ColorCalculationSettings, ColorColumn, ColorProperty} from "./palette-engine";
 import _ from 'lodash'
 import ColorPropertyConstantSelector from "./ColorPropertyConstantSelector";
 import ColorPropertyRange from "./color-property-range";
@@ -46,11 +46,11 @@ function App() {
     const amountOfColorProperties = 3
     const allSelections = [baseSelection, variantSelection, constantSelection]
     let selectionsAreValid = _.uniq(allSelections).length === amountOfColorProperties
-    let colors: string[] = []
+    let colorRows: ColorColumn[] = [];
     
     if (selectionsAreValid) {
-        colors = calculateColors(settings)
-        selectionsAreValid = !_.isEmpty(colors)
+        colorRows = calculateColors(settings)
+        selectionsAreValid = !_.isEmpty(colorRows)
     }
     
     useEffect(() => {
@@ -58,8 +58,8 @@ function App() {
     });
     
     const colorFieldStyle: CSSProperties = {
-        width: `${(100.0 / baseValue)}%`,
-        height: '30pt'
+        height: `30pt`,
+        width: `100%`
     }
     
     return (
@@ -101,9 +101,14 @@ function App() {
             </Card>
             <Collapse in={selectionsAreValid}>
                 <Card style={cardStyle}>
-                    <Box style={{display: 'flex', flexDirection: 'row', width: "1000%", flexWrap: 'wrap'}}>
-                        {colors.map(c => <div style={{...colorFieldStyle, backgroundColor: c}}/>)}
+                    <Box style={{display: 'flex', flexDirection: 'row', width: '100%'}}>
+                        {colorRows.map(r =>
+                            <div style={{display: 'flex', flexDirection: 'column', width: "100%", flexWrap: 'wrap'}}>
+                                {r.colors.flatMap(c => (<div style={{...colorFieldStyle, backgroundColor: c.hex()}}/>))}
+                            </div>
+                        )}
                     </Box>
+                        
                 </Card>
             </Collapse>
         </Box>
