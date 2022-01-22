@@ -5,6 +5,7 @@ import ColorPropertySelector from "./ColorPropertySelector";
 import {calculateColors, ColorCalculationSettings, ColorProperty} from "./palette-engine";
 import _ from 'lodash'
 import ColorPropertyConstantSelector from "./ColorPropertyConstantSelector";
+import ColorPropertyRange from "./color-property-range";
 
 const cardStyle: CSSProperties = {
     margin: '10pt',
@@ -14,14 +15,20 @@ const cardStyle: CSSProperties = {
 }
 
 function App() {
-    const [baseSelection, setBaseSelection] = useState(ColorProperty.Hue)
-    const [variantSelection, setVariantSelection] = useState(ColorProperty.Brightness)
-    const [constantSelection, setConstantSelection] = useState(ColorProperty.Saturation)
-    const [baseValue, setBaseValue] = useState(3)
-    const [variantValue, setVariantValue] = useState(3)
-    const [constantValue, setConstantValue] = useState(50) // Middle value (between 0 and 100) for constant
     
     const maxFor = (property: ColorProperty) => property === ColorProperty.Hue ? 359 : 100
+
+    const [baseSelection, setBaseSelection] = useState(ColorProperty.Hue)
+    const [baseValue, setBaseValue] = useState(3)
+    const [baseRange, setBaseRange] = useState(new ColorPropertyRange(0, maxFor(baseSelection)))
+    
+    const [variantSelection, setVariantSelection] = useState(ColorProperty.Brightness)
+    const [variantValue, setVariantValue] = useState(3)
+    const [variantRange, setVariantRange] = useState(new ColorPropertyRange(0, maxFor(variantSelection)))
+
+    const [constantSelection, setConstantSelection] = useState(ColorProperty.Saturation)
+    const [constantValue, setConstantValue] = useState(50) // Middle value (between 0 and 100) for constant
+    
     
     const settings: ColorCalculationSettings = {
         baseColorProperty: baseSelection,
@@ -30,10 +37,10 @@ function App() {
         variantValue: variantValue,
         constantColorProperty: constantSelection,
         constantValue: constantValue,
-        baseMax: maxFor(baseSelection),
-        baseMin: 0,
-        variantMax: maxFor(variantSelection),
-        variantMin: 0,
+        baseMax: baseRange.max,
+        baseMin: baseRange.min,
+        variantMax: variantRange.max,
+        variantMin: variantRange.min,
     }
     
     const amountOfColorProperties = 3
@@ -67,6 +74,9 @@ function App() {
                     defaultValue={baseValue}
                     onOptionChange={setBaseSelection}
                     onValueChange={setBaseValue}
+                    possibleMax={maxFor(baseSelection)}
+                    defaultSelectedRange={new ColorPropertyRange(0, maxFor(baseSelection))} 
+                    onRangeChange={r => setBaseRange(r)}
                 />
                 <ColorPropertySelector
                     title={'Variant:'}
@@ -74,6 +84,9 @@ function App() {
                     defaultValue={variantValue}
                     onOptionChange={setVariantSelection}
                     onValueChange={setVariantValue}
+                    possibleMax={maxFor(variantSelection)}
+                    defaultSelectedRange={new ColorPropertyRange(0, maxFor(variantSelection))}
+                    onRangeChange={r => setVariantRange(r)}
                 />
                 <ColorPropertyConstantSelector
                     title={`Constant:`}
