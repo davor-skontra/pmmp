@@ -24,7 +24,7 @@ function getSteps(min: number, max: number, amount: number): number[] {
         return result
     }
     let next = min;
-    while(next <= max){
+    for(let i = 0; i < amount; i++){
         result.push(next)
         next += step
     }
