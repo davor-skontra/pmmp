@@ -71,6 +71,7 @@ function App() {
         flexDirection: 'row',
         gap: '10pt',
         width: '150pt',
+        marginTop: '10pt',
         marginLeft: '10pt'
     }
     
@@ -124,8 +125,8 @@ function App() {
                     </Card>
                 </Collapse>
             </Card>
-            <Slide direction='right' in={selectionsAreValid} mountOnEnter unmountOnExit style={validSelectionTransition(!selectionsAreValid)}>
-                <Card style={cardStyle}>
+            <Collapse in={selectionsAreValid} mountOnEnter unmountOnExit style={validSelectionTransition(!selectionsAreValid)}>
+                <Card style={{...cardStyle, padding: 0}}>
                     <Box style={{display: 'flex', flexDirection: 'row', width: '100%'}}>
                         {colors.current.map(r =>
                             <div style={{display: 'flex', flexDirection: 'column', width: "100%", flexWrap: 'wrap'}}>
@@ -134,7 +135,7 @@ function App() {
                         )}
                     </Box>
                 </Card>
-            </Slide>
+            </Collapse>
             <Slide direction='right' in={selectionsAreValid} mountOnEnter unmountOnExit style={validSelectionTransition(selectionsAreValid)}>
                 <Fab variant='extended' color='secondary' style={fabStyle}>
                     <SaveAs/>
