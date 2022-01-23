@@ -8,14 +8,4 @@ export default class ColorPropertyRange {
         this.min = min;
         this.max = max;
     }
-    
-    public withMin = (min: number): ColorPropertyRange => {
-        this.min = min;
-        return this;
-    }
-
-    public withMax = (max: number): ColorPropertyRange => {
-        this.max = max;
-        return this;
-    }
 }

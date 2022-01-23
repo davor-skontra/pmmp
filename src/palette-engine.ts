@@ -38,12 +38,12 @@ function createColor(baseCurrent: number, variantCurrent: number, s: ColorCalcul
             {cp: s.constantColorProperty, v: s.constantValue},
         ]
     
-    const use = (cp: ColorProperty): number => {
+    const match = (cp: ColorProperty): number => {
         return _.find(values, x => x.cp == cp)!!.v
     }
 
     return Color.hsl(
-        use(ColorProperty.Hue), use(ColorProperty.Saturation), use(ColorProperty.Brightness)
+        match(ColorProperty.Hue), match(ColorProperty.Saturation), match(ColorProperty.Brightness)
     )
 }
 

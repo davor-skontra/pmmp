@@ -18,15 +18,15 @@ const cardStyle: CSSProperties = {
 function App() {
     const maxFor = (property: ColorProperty) => property == ColorProperty.Hue ? 359 : 100;
 
+    const baseDefaultRange = new ColorPropertyRange(0, 300)
     const [baseSelection, setBaseSelection] = useState(ColorProperty.Hue)
     const [baseValue, setBaseValue] = useState(6)
-    const [baseRange, setBaseRange] = useState(new ColorPropertyRange(0, maxFor(baseSelection)))
-    const baseDefaultRange = new ColorPropertyRange(0, 300)
-    
+    const [baseRange, setBaseRange] = useState(baseDefaultRange)
+
+    const variantDefaultRange = new ColorPropertyRange(20, 80)
     const [variantSelection, setVariantSelection] = useState(ColorProperty.Brightness)
     const [variantValue, setVariantValue] = useState(12)
-    const [variantRange, setVariantRange] = useState(new ColorPropertyRange(0, maxFor(variantSelection)))
-    const variantDefaultRange = new ColorPropertyRange(20, 80)
+    const [variantRange, setVariantRange] = useState(variantDefaultRange)
 
     const [constantSelection, setConstantSelection] = useState(ColorProperty.Saturation)
     const [constantValue, setConstantValue] = useState(50) // Middle value (between 0 and 100) for constant
